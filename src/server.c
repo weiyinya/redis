@@ -1369,6 +1369,9 @@ void beforeSleep(struct aeEventLoop *eventLoop) {
     /* Run a fast expire cycle (the called function will return
      * ASAP if a fast cycle is not needed). */
     if (server.active_expire_enabled && server.masterhost == NULL)
+        /**
+         * 定期过期策略在这里实现
+         */
         activeExpireCycle(ACTIVE_EXPIRE_CYCLE_FAST);
 
     /* Send all the slaves an ACK request if at least one client blocked

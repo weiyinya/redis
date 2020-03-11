@@ -183,6 +183,7 @@ void activeExpireCycle(int type) {
             ttl_sum = 0;
             ttl_samples = 0;
 
+            //默认循环20次，也就是进行20次随机抽取key进行expire
             if (num > ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP)
                 num = ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP;
 
@@ -213,6 +214,7 @@ void activeExpireCycle(int type) {
                 db->avg_ttl = (db->avg_ttl/50)*49 + (avg_ttl/50);
             }
 
+            //如果总的定期失效时间超过1000微妙，即1毫秒就会超时？ 确定是1毫秒？那就代表20次就要终止这次定期expire了？
             /* We can't block forever here even if there are many keys to
              * expire. So after a given amount of milliseconds return to the
              * caller waiting for the other active expire cycle. */
